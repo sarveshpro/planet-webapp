@@ -1,8 +1,12 @@
-import Layout from '../src/features/common/Layout'
-import HomePage from '../src/features/public/Home'
-import {useDispatch} from 'react-redux'
+import Layout from '../src/features/common/Layout';
+import HomePage from '../src/features/public/Home';
+import PropTypes from 'prop-types';
+// @ts-ignore
+import {useDispatch} from 'react-redux';
+// @ts-ignore
+import { withTranslation } from '../i18n';
 
-export default function Home() {
+const Home = function () {
 
   const dispatch = useDispatch()
   return (
@@ -11,3 +15,13 @@ export default function Home() {
     </Layout>
   )
 }
+
+Home.getInitialProps = async () => ({
+  namespacesRequired: ['common', 'footer'],
+});
+
+Home.propTypes = {
+  t: PropTypes.func.isRequired,
+};
+
+export default withTranslation('common')(Home);

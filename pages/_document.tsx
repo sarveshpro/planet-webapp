@@ -1,4 +1,6 @@
-import Document, { Html, Head, Main, NextScript } from 'next/document'
+import Document, { Html, Head, Main, NextScript } from 'next/document';
+// @ts-ignore
+import { withTranslation } from '../i18n';
 
 class MyDocument extends Document {
   static async getInitialProps(ctx:any) {
@@ -19,4 +21,4 @@ class MyDocument extends Document {
   }
 }
 
-export default MyDocument
+export default withTranslation('common')(MyDocument)
