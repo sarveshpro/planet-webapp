@@ -9,4 +9,5 @@ module.exports = new NextI18Next({
     react: {
         wait: true
     },
+    strictMode: false,
 });

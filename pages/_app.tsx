@@ -1,6 +1,6 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 // @ts-ignore
-import { appWithTranslation } from '../i18n';
+import { withTranslation } from '../i18n';
 import ThemeProvider from "../src/utils/themeContext";
 // @ts-ignore
 import {Provider} from 'react-redux';
@@ -21,4 +21,4 @@ function PlanetWeb({Component, pageProps}:any) {
 const makestore =()=>store;
 const wrapper = createWrapper(makestore);
 
-export default appWithTranslation(wrapper.withRedux(PlanetWeb));
+export default withTranslation()(wrapper.withRedux(PlanetWeb));

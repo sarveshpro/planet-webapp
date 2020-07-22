@@ -17,7 +17,7 @@ const Home = function () {
 }
 
 Home.getInitialProps = async () => ({
-  namespacesRequired: ['common', 'footer'],
+  namespacesRequired: ['common'],
 });
 
 Home.propTypes = {
