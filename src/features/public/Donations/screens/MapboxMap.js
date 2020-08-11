@@ -1,11 +1,18 @@
 import React, { useRef, useState } from 'react';
-import MapGL, { Marker, NavigationControl, Popup } from 'react-map-gl';
+import MapGL, {
+  FlyToInterpolator,
+  Marker,
+  NavigationControl,
+  Popup,
+} from 'react-map-gl';
 import PopupProject from '../components/PopupProject';
 import styles from '../styles/MapboxMap.module.scss';
 
 export default function MapboxMap(props) {
   let mapContainer = useRef(null);
   var timer;
+  const isMobile = window.innerWidth <= 768;
+
   const { projects } = props;
   const [popupData, setPopupData] = useState({ show: false });
 
@@ -18,6 +25,28 @@ export default function MapboxMap(props) {
   });
 
   const _onViewportChange = (view) => setViewPort({ ...view });
+
+  const showPopup = (project) => {
+    setPopupData({
+      show: true,
+      lat: project.geometry.coordinates[1],
+      long: project.geometry.coordinates[0],
+      project: project,
+    });
+  };
+
+  const onTouchStart = (project) => {
+    if (isMobile) {
+      setViewPort({
+        ...viewport,
+        latitude: project.geometry.coordinates[1],
+        longitude: project.geometry.coordinates[0],
+        transitionDuration: 'auto',
+        transitionInterpolator: new FlyToInterpolator({ speed: 1 }),
+      });
+      showPopup(project);
+    }
+  };
 
   return (
     <div className={styles.mapContainer}>
@@ -40,14 +69,10 @@ export default function MapboxMap(props) {
           >
             <div
               className={styles.marker}
+              onTouchEnd={() => onTouchStart(project)}
               onMouseOver={(e) => {
                 timer = setTimeout(function () {
-                  setPopupData({
-                    show: true,
-                    lat: project.geometry.coordinates[1],
-                    long: project.geometry.coordinates[0],
-                    project: project,
-                  });
+                  showPopup(project);
                 }, 300);
               }}
               onMouseLeave={(e) => {
