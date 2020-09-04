@@ -10,13 +10,13 @@ import MapGL, {
   NavigationControl,
   Popup,
   Source,
-  WebMercatorViewport,
+  WebMercatorViewport
 } from 'react-map-gl';
 import PopupProject from '../components/PopupProject';
 import styles from '../styles/MapboxMap.module.scss';
 
 export default function MapboxMap(props) {
-  var timer;
+  const [timer, setTimer] = React.useState();
   const projects = props.projects;
   const project = props.project;
   const mapRef = useRef(null);
@@ -209,6 +209,7 @@ export default function MapboxMap(props) {
     props.setShowSingleProject(true);
   };
 
+  console.log('Timer', timer)
   return (
     <div className={styles.mapContainer}>
       <MapGL
@@ -237,27 +238,27 @@ export default function MapboxMap(props) {
               <div className={styles.marker}></div>
             </Marker>
           ) : (
-            <Source id="singleProject" type="geojson" data={geojson}>
-              <Layer
-                id="ploygonLayer"
-                type="fill"
-                source="singleProject"
-                paint={{
-                  'fill-color': '#fff',
-                  'fill-opacity': 0.2,
-                }}
-              />
-              <Layer
-                id="ploygonOutline"
-                type="line"
-                source="singleProject"
-                paint={{
-                  'line-color': '#89b54a',
-                  'line-width': 2,
-                }}
-              />
-            </Source>
-          )
+              <Source id="singleProject" type="geojson" data={geojson}>
+                <Layer
+                  id="ploygonLayer"
+                  type="fill"
+                  source="singleProject"
+                  paint={{
+                    'fill-color': '#fff',
+                    'fill-opacity': 0.2,
+                  }}
+                />
+                <Layer
+                  id="ploygonOutline"
+                  type="line"
+                  source="singleProject"
+                  paint={{
+                    'line-color': '#89b54a',
+                    'line-width': 2,
+                  }}
+                />
+              </Source>
+            )
         ) : null}
         {!props.showSingleProject &&
           projects.map((project, index) => (
@@ -274,18 +275,18 @@ export default function MapboxMap(props) {
                 onClick={() =>
                   handleOpenProject(popupData.project.properties.id)
                 }
-                onMouseOver={(e) => {
-                  timer = setTimeout(function () {
+                onMouseOver={() => {
+                  setTimer(setTimeout(() => {
                     setPopupData({
                       show: true,
                       lat: project.geometry.coordinates[1],
                       long: project.geometry.coordinates[0],
                       project: project,
                     });
-                  }, 300);
+                  }, 300));
                 }}
-                onMouseLeave={(e) => {
-                  clearTimeout(timer);
+                onMouseLeave={() => {
+                  setTimer(clearTimeout(timer));
                 }}
               >
                 {/* <img
@@ -310,11 +311,11 @@ export default function MapboxMap(props) {
             <div
               className={styles.popupProject}
               onClick={() => handleOpenProject(popupData.project.properties.id)}
-              onMouseLeave={(e) => {
+              onMouseLeave={() => {
                 if (!open) {
-                  setTimeout(function () {
+                  setTimer(setTimeout(() => {
                     setPopupData({ ...popupData, show: false });
-                  }, 300);
+                  }, 300));
                   handleClose();
                 }
               }}
@@ -339,8 +340,8 @@ export default function MapboxMap(props) {
               <p className={styles.projectControlText}>
                 &nbsp;&nbsp;
                 {siteExists &&
-                project.sites.length != 0 &&
-                geojson.features[currentSite]
+                  project.sites.length != 0 &&
+                  geojson.features[currentSite]
                   ? geojson.features[currentSite].properties.name
                   : null}
                 &nbsp;&nbsp;
