@@ -1,19 +1,62 @@
+import { useRouter } from 'next/router';
+import React from 'react';
 import Layout from '../src/features/common/Layout';
-import HomePage from '../src/features/public/Home';
-import PropTypes from 'prop-types';
-// @ts-ignore
-import {useDispatch} from 'react-redux';
-// @ts-ignore
+import ProjectsList from '../src/features/public/Donations/screens/Projects';
 import { withTranslation } from '../i18n';
 
-const Home = function () {
+export default function Donate() {
+  const router = useRouter();
+  const [projects, setProjects] = React.useState();
+  const [yScroll, setYScroll] = React.useState(0);
 
-  const dispatch = useDispatch()
+  const DonateProps = {
+    projects: projects,
+    yScroll: yScroll,
+  };
+
+  React.useEffect(() => {
+    async function loadProjects() {
+      let currencyCode;
+      if (typeof Storage !== 'undefined') {
+        if (localStorage.getItem('currencyCode')) {
+          currencyCode = localStorage.getItem('currencyCode');
+          // currencyCode = 'EUR';
+        } else {
+          currencyCode = 'EUR';
+        }
+      }
+      const res = await fetch(
+        `${process.env.API_ENDPOINT}/app/projects?_scope=map&currency=${currencyCode}`,
+        {
+          headers: { 'tenant-key': `${process.env.TENANTID}` },
+        }
+      ).then(async (res) => {
+        const projects = res.status === 200 ? await res.json() : null;
+        if (res.status !== 200) {
+          router.push('/404', undefined, { shallow: true });
+        }
+        setProjects(projects);
+      });
+    }
+    loadProjects();
+  }, []);
+
+  React.useEffect(() => {
+    const handleScroll = (e) => {
+      let newScroll = yScroll + e.deltaY;
+      if (newScroll < 0) {
+        newScroll = 0;
+      }
+      setYScroll(newScroll);
+    };
+    window.addEventListener('wheel', handleScroll);
+    return () => window.removeEventListener('wheel', handleScroll);
+  });
   return (
     <Layout>
-      <HomePage/>
+      {projects ? <ProjectsList {...DonateProps} /> : <h2>Loading...</h2>}
     </Layout>
-  )
+  );
 }
 
 Home.getInitialProps = async () => ({

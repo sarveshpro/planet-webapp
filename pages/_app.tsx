@@ -1,21 +1,21 @@
-import 'bootstrap/dist/css/bootstrap.min.css';
-// @ts-ignore
-import { appWithTranslation } from '../i18n';
-import ThemeProvider from "../src/utils/themeContext";
 import CssBaseline from '@material-ui/core/CssBaseline';
-import {Provider} from 'react-redux'
-import {createWrapper} from 'next-redux-wrapper'
-import store from './../src/store/store'
-import { context } from '../src/utils/config';
-import useLocalStorage from '../src/utils/useLocalStorage';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'mapbox-gl/dist/mapbox-gl.css';
 import React from 'react';
-function PlanetWeb({Component, pageProps,config}:any) {
+import TagManager from 'react-gtm-module';
+import '../src/features/public/Donations/styles/Maps.scss';
+import '../src/theme/global.scss';
+import ThemeProvider from '../src/utils/themeContext';
+import { appWithTranslation } from '../i18n';
 
-  const [configStore, setConfig] = useLocalStorage('config', {});
+export default function PlanetWeb({ Component, pageProps }: any) {
+  const tagManagerArgs = {
+    gtmId: process.env.NEXT_PUBLIC_GA_TRACKING_ID,
+  };
 
-  React.useEffect(()=>{
-    setConfig(config)
-  },[config])
+  React.useEffect(() => {
+    TagManager.initialize(tagManagerArgs);
+  }, []);
 
   React.useEffect(() => {
     // Remove the server-side injected CSS.
@@ -24,27 +24,29 @@ function PlanetWeb({Component, pageProps,config}:any) {
       jssStyles!.parentElement!.removeChild(jssStyles);
     }
   }, []);
+
+  React.useEffect(() => {
+    async function loadConfig() {
+      const res = await fetch(
+        `${process.env.API_ENDPOINT}/public/v1.2/en/config`,
+        {
+          headers: { 'tenant-key': `${process.env.TENANTID}` },
+        }
+      ).then(async (res) => {
+        const config = await res.json();
+        localStorage.setItem('config', JSON.stringify(config));
+        localStorage.setItem('countryCode', config.country);
+        localStorage.setItem('currencyCode', config.currency);
+      });
+    }
+    loadConfig();
+  }, []);
+
   return (
-    <Provider store={store}>
-      <ThemeProvider>
+    <ThemeProvider>
       <CssBaseline />
-        <Component {...pageProps} config={config} />
-      </ThemeProvider> 
-    </Provider>
-    
+
+      <Component {...pageProps} />
+    </ThemeProvider>
   );
 }
-
-PlanetWeb.getInitialProps = async ({ Component, ctx }) => {
-  let pageProps = {};
-  const res = await fetch(`${context.api_url}/public/v1.2/en/config`);
-  const config =await res.json()
-  if (Component.getInitialProps) {
-    pageProps = await Component.getInitialProps(ctx)
-  }
-  return { pageProps, config:config }
-}
-const makestore =()=>store;
-const wrapper = createWrapper(makestore);
-
-export default wrapper.withRedux(appWithTranslation(PlanetWeb));

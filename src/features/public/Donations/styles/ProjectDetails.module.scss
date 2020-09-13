@@ -1,185 +1,296 @@
 @import './../../../../theme/theme';
 
+.container {
+  width: 100vw;
+  margin-top: 60px;
+  position: relative;
+  z-index: 6;
+}
+
+.modal {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow-y: scroll;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.modal::-webkit-scrollbar {
+  width: 0px;
+}
+
 /* Projects */
-.projectContainer{
-    display: flex;
-    flex-direction: column;
-    background-color: $white;
-    width: 320px;
-    padding-bottom: 16px;
-    max-height: 86vh;
-    overflow: scroll;
-    border-top-right-radius: 13px;
-    border-top-left-radius: 13px;
+.projectContainer {
+  display: flex;
+  flex-direction: column;
+  background-color: $light;
+  width: 360px;
+  padding-bottom: 16px;
+  max-height: calc(100vh - 95px);
+  border-top-right-radius: 13px;
+  border-top-left-radius: 13px;
+  position: absolute;
+  top: 30px;
+  left: 24px;
+  overflow-x: hidden;
+  overflow-y: scroll;
 }
 
-.targetLocation{
-    display: flex;
-    flex-direction: row;
-    align-items: baseline;
+// .projectContainer::-webkit-scrollbar-track {
+//   // -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+//   border-radius: 10px;
+//   background-color: #f5f5f5;
+// }
+
+// .projectContainer::-webkit-scrollbar {
+//   width: 5px;
+//   background-color: #f5f5f5;
+// }
+
+// .projectContainer::-webkit-scrollbar-thumb {
+//   border-radius: 10px;
+//   -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+//   box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+//   background-color: $dividerColor;
+// }
+
+.targetLocation {
+  display: flex;
+  flex-direction: row;
+  align-items: baseline;
 }
-.projectCompleteInfo{
-    margin-top: 10px;
-    margin-left: 16px;
-    margin-right: 16px;
+.projectCompleteInfo {
+  margin-top: 10px;
+  margin-left: 16px;
+  margin-right: 16px;
 }
-.projectInfo{
-    display: flex;
-    flex-direction: row;
-    align-items: baseline;
-    justify-content: space-between;
+.projectInfo {
+  display: flex;
+  flex-direction: row;
+  align-items: baseline;
+  justify-content: space-between;
 }
 
-.target{
-    font-family: $primaryFontFamily;
-    font-size: 12px;
-    color: $primaryFontColor;
-    font-weight: bold;
-    margin-right: 4px;
+.target {
+  font-family: $primaryFontFamily;
+  font-size: 12px;
+  color: $primaryFontColor;
+  font-weight: bold;
+  margin-right: 4px;
 }
-.projectTPOName, .location {
-    font-family: $primaryFontFamily;
-    font-size: 12px;
-    color: $primaryFontColor;
-    margin-top: 10px;
-}
-
-.costButton{
-    background-color: $blueishGrey;
-    width: 72px;
-    height: 22px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-radius: 11px;
-    color: $primaryColor;
-    font-weight: bold;
-    font-family: $primaryFontFamily;
-    font-size: $fontSubTitleSize;
+.projectTPOName,
+.location {
+  font-family: $primaryFontFamily;
+  font-size: 12px;
+  color: $primaryFontColor;
+  margin-top: 10px;
 }
 
-.perTree{
-    font-family: $primaryFontFamily;
-    font-size: 9px;
-    color: $primaryFontColor;
-    margin-top: 5px;
+.costButton {
+  background-color: $primaryColor;
+  width: 72px;
+  height: 22px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 11px;
+  color: $light;
+  font-weight: bold;
+  font-family: $primaryFontFamily;
+  font-size: $fontSubTitleSize;
+  text-transform: uppercase;
 }
 
-.projectCost{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+.costButton:hover {
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.perTree {
+  font-family: $primaryFontFamily;
+  font-size: 9px;
+  color: $primaryFontColor;
+  margin-top: 5px;
+}
+
+.projectCost {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 /* Progress Bar */
-.progressBar{
-    height: 4px;
-    width: 100%;
-    background-color: $dividerColor;
+.progressBar {
+  height: 4px;
+  width: 100%;
+  background-color: $dividerColor;
 }
 
-.progressBarHighlight{
-    height: 4px;
-    background-color: $primaryColor;
-    width: 30%;
-    border-top-right-radius: 2px;
-    border-bottom-right-radius: 2px;
+.progressBarHighlight {
+  height: 4px;
+  background-color: $primaryColor;
+  border-top-right-radius: 2px;
+  border-bottom-right-radius: 2px;
 }
 
-.projectImage{
-    height: 160px;
-    width: 100%;
-    background-color: $secondaryColor;
-    position: relative;
-    border-top-right-radius: 13px;
-    border-top-left-radius: 13px;
-    background-image: linear-gradient(to top, rgba(0,0,0,1), rgba(0,0,0,0.2), rgba(0,0,0,0), rgba(0,0,0,0));
+.projectImage {
+  height: 160px;
+  width: 100%;
+  background-color: $primaryColor;
+  position: relative;
+  border-top-right-radius: 13px;
+  border-top-left-radius: 13px;
 }
 
-
-.projectName{
-    font-family: $primaryFontFamily;
-    font-size: 18px;
-    color: $white;
-    position: absolute;
-    bottom: 12px;
-    left: 16px;
+.projectImageFile {
+  height: 160px;
+  width: 100%;
+  position: relative;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 
-.ratings{
-    display: flex;
-    flex-direction: row;
-    margin-top: 10px;
-}
-.calculatedRating{
-    font-family: $primaryFontFamily;
-    font-size: $fontSubTitleSize;
-    font-weight: bold;
-    color:$primaryFontColor;
+.projectImageBlock {
+  position: absolute;
+  bottom: 12px;
+  left: 16px;
 }
 
-.ratingButton{
-    margin-left: 5px;
+.projectType {
+  font-family: $primaryFontFamily;
+  font-size: 10px;
+  color: #fff;
+  font-weight: bold;
+  text-transform: uppercase;
 }
 
-.projectDescription{
-    font-family: $primaryFontFamily;
-    font-size: $fontSubTitleSize;
-    color:$primaryFontColor;
-    line-height: 21px;
+.projectName {
+  font-family: $primaryFontFamily;
+  font-size: 18px;
+  color: $light;
+}
+
+.ratings {
+  display: flex;
+  flex-direction: row;
+  margin-top: 10px;
+}
+.calculatedRating {
+  font-family: $primaryFontFamily;
+  font-size: $fontSubTitleSize;
+  font-weight: bold;
+  color: $primaryFontColor;
+}
+
+.ratingButton {
+  margin-left: 5px;
+}
+
+.projectDescription {
+  font-family: $primaryFontFamily;
+  font-size: $fontSubTitleSize;
+  color: $primaryFontColor;
+  line-height: 21px;
+  margin-top: 24px;
 }
 
 /* Additional Information */
 
-.projectInfoProperties{
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
+.projectMoreInfoHalf {
+  width: 50%;
+  margin-top: 35px;
 }
 
-.projectMoreInfoHalf{
-    width: 50%;
-    margin-top: 35px;
+.projectMoreInfo {
+  width: 100%;
+  margin-top: 35px;
+}
+.infoTitle {
+  font-family: $primaryFontFamily;
+  font-size: 10px;
+  color: $primaryFontColor;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+.infoText {
+  margin-top: 9px;
+  font-family: $primaryFontFamily;
+  font-size: $fontSubTitleSize;
+  color: $primaryFontColor;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  cursor: pointer;
 }
 
-.projectMoreInfo{
-    width: 100%;
-    margin-top: 35px;
+.infoTextButton {
+  color: $primaryColor;
 }
-.infoTitle{
-    font-family: $primaryFontFamily;
-    font-size: 10px;
-    color:$primaryFontColor;
-    font-weight: bold;
-    text-transform: uppercase;
-}
-.infoText{
-    margin-top: 9px;
-    font-family: $primaryFontFamily;
-    font-size: $fontSubTitleSize;
-    color:$primaryFontColor;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
+.infoTextButton:hover {
+  cursor: pointer;
 }
 
-.infoTextButton{
-    color:$primaryColor;
-}
-.infoTextButton:hover{
-    cursor: pointer;
-}
-
-.speciesProgress{
-    background-color: $primaryColor;
-    height: 2px;
-    border-top-right-radius: 2px;
-    border-bottom-right-radius: 2px;
-    margin-bottom: -6px;
-    margin-top: $fontSubTitleSize;
+.speciesProgress {
+  background-color: $primaryColor;
+  height: 2px;
+  border-top-right-radius: 2px;
+  border-bottom-right-radius: 2px;
+  margin-bottom: -6px;
+  margin-top: $fontSubTitleSize;
 }
 
-.contactDetailsRow{
-    display: flex;
-    align-items: center;
+.contactDetailsRow {
+  display: flex;
+  align-items: center;
+}
+
+.projectVideoContainer {
+  padding: 20px 0px 10px 0px;
+}
+
+.projectImageSliderContainer {
+  margin-top: 10px;
+  width: 100%;
+  // border-radius: 0.6em;
+  overflow: hidden;
+  :first-child {
+    :first-child {
+      bottom: 2px;
+      > div {
+        background: rgba(0, 0, 0, 0.4) !important;
+        height: 4px !important;
+        > div {
+          background: rgba(255, 255, 255, 0.8) !important;
+        }
+      }
+    }
+  }
+}
+
+.projectImageSliderContent {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: bottom;
+  background-position: center center !important;
+  background-size: cover !important;
+}
+
+.projectImageSliderContentText {
+  bottom: 10;
+  color: white;
+  font-size: 14;
+  font-family: $primaryFontFamily;
+  padding: 14px 12px;
+}
+
+.projectDescription > div > span > div {
+  color: $primaryColor;
+  display: inline;
+  padding-left: 5px;
+  cursor: pointer;
 }

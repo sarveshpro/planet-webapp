@@ -1,24 +1,28 @@
- 
-module.exports ={
+const scheme =
+  process.env.SCHEME === 'http' || process.env.SCHEME === 'https'
+    ? process.env.SCHEME
+    : 'https';
+
+module.exports = {
   // your config for other plugins or the general next.js here...
   devIndicators: {
     autoPrerender: false,
   },
-  serverRuntimeConfig: {
-    // Will only be available on the server side
-    API_ENDPOINT: 'https://app-development.plant-for-the-planet.org'
+  env: {
+    MAPBOXGL_ACCESS_TOKEN: process.env.MAPBOXGL_ACCESS_TOKEN,
+    TENANT: process.env.TENANT,
+    TENANTID: process.env.TENANTID,
+    API_ENDPOINT: scheme + '://' + process.env.API_ENDPOINT,
+    CDN_URL: scheme + '://' + process.env.CDN_URL,
   },
-  publicRuntimeConfig: {
-    // Will be available on both server and client
-    API_ENDPOINT: 'https://app-development.plant-for-the-planet.org',
-    googleMapApiKey:'',
-    debug:true,
-    currency:'EUR',
-    mapIdsInventory:'',
-    bugsnagApiKey:'',
-    androidAppId:'org.pftp',
-    iosAppId:'1444740626',
-    locationApikKey:'',
-    mediaPath:'/media/cache'
-  }
+  trailingSlash: false,
+  reactStrictMode: true,
+  poweredByHeader: false,
+  typescript: {
+    // !! WARN !!
+    // Dangerously allow production builds to successfully complete even if
+    // your project has type errors.
+    // !! WARN !!
+    ignoreBuildErrors: true,
+  },
 };
